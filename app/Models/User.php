@@ -37,4 +37,12 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function bookHistory() {
+        return $this->belongsToMany(Book::class, 'book_user')->where('is_returned', 1);
+    }
+
+    public function currentlyBooked() {
+        return $this->belongsToMany(Book::class, 'book_user')->where('is_returned', 0);
+    }
 }
