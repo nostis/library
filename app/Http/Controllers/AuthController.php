@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\RegisterAdminRequest;
+use App\Http\Requests\RegisterClientRequest;
+use App\Http\Requests\RegisterLibrarianRequest;
 use App\Http\Requests\User\LoginUserRequest;
-use App\Http\Requests\User\RegisterUserRequest;
 use App\Http\Services\AuthService;
-use Illuminate\Http\Request;
 
 class AuthController extends Controller {
     private $authService;
@@ -14,8 +15,16 @@ class AuthController extends Controller {
         $this->authService = $authService;
     }
 
-    public function register(RegisterUserRequest $request) {
-        return $this->authService->register($request);
+    public function registerAdmin(RegisterAdminRequest $request) {
+        return $this->authService->registerAdmin($request);
+    }
+
+    public function registerLibrarian(RegisterLibrarianRequest $request) {
+        return $this->authService->registerLibrarian($request);
+    }
+
+    public function registerClient(RegisterClientRequest $request) {
+        return $this->authService->registerClient($request);
     }
 
     public function login(LoginUserRequest $request) {
