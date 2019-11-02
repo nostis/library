@@ -5,9 +5,9 @@ namespace App\Http\Services;
 use App\Http\Requests\User\LoginUserRequest;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
-use App\Http\Requests\RegisterAdminRequest;
-use App\Http\Requests\RegisterLibrarianRequest;
-use App\Http\Requests\RegisterClientRequest;
+use App\Http\Requests\User\RegisterAdminRequest;
+use App\Http\Requests\User\RegisterLibrarianRequest;
+use App\Http\Requests\User\RegisterClientRequest;
 
 class AuthService {
     public function login(LoginUserRequest $request) {

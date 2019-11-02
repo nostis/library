@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\RegisterAdminRequest;
-use App\Http\Requests\RegisterClientRequest;
-use App\Http\Requests\RegisterLibrarianRequest;
+use App\Http\Requests\User\RegisterAdminRequest;
+use App\Http\Requests\User\RegisterClientRequest;
+use App\Http\Requests\User\RegisterLibrarianRequest;
 use App\Http\Requests\User\LoginUserRequest;
 use App\Http\Services\AuthService;
 
