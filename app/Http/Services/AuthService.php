@@ -25,20 +25,23 @@ class AuthService {
 
     public function registerAdmin(RegisterAdminRequest $request) {
         $user = $this->register($request->validated(), 'Admin');
-
-        return response()->json(['user' => $user, 'token' => $user->accessToken], 201);
+        $token = $this->createToken($user);
+        
+        return response()->json(['user' => $user, 'token' => $token], 201);
     }
 
     public function registerLibrarian(RegisterLibrarianRequest $request) {
         $user = $this->register($request->validated(), 'Librarian');
+        $token = $this->createToken($user);
 
-        return response()->json(['user' => $user, 'token' => $user->accessToken], 201);
+        return response()->json(['user' => $user, 'token' => $token], 201);
     }
 
     public function registerClient(RegisterClientRequest $request) {
         $user = $this->register($request->validated(), 'Client');
+        $token = $this->createToken($user);
 
-        return response()->json(['user' => $user, 'token' => $user->accessToken], 201);
+        return response()->json(['user' => $user, 'token' => $token], 201);
     }
 
     private function register(array $request, $role) {
@@ -46,8 +49,11 @@ class AuthService {
 
         $createdUser = User::create($request);
         $createdUser->assignRole($role);
-        $createdUser->createToken('token')->accessToken;
-
+        
         return $createdUser;
+    }
+
+    private function createToken($user) {
+        return $user->createToken('token')->accessToken;
     }
 }
