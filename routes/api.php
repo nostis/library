@@ -14,6 +14,19 @@ use Illuminate\Http\Request;
 */
 
 Route::group(['prefix' => 'auth'], function () {
-    Route::post('register', 'AuthController@register');
     Route::post('login', 'AuthController@login');
+
+    Route::group(['prefix' => 'clients'], function () {
+        Route::post('', 'AuthController@registerClient');
+    });
+
+    Route::group(['middleware' => 'auth:api'], function () {
+        Route::group(['prefix' => 'admins'], function () {
+            Route::post('', 'AuthController@registerAdmin');   
+        });
+
+        Route::group(['prefix' => 'librarians'], function () {
+            Route::post('', 'AuthController@registerLibrarian');   
+        });
+    });
 });
