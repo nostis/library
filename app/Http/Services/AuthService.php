@@ -3,9 +3,11 @@
 namespace App\Http\Services;
 
 use App\Http\Requests\User\LoginUserRequest;
-use App\Http\Requests\User\RegisterUserRequest;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Requests\User\RegisterAdminRequest;
+use App\Http\Requests\User\RegisterLibrarianRequest;
+use App\Http\Requests\User\RegisterClientRequest;
 
 class AuthService {
     public function login(LoginUserRequest $request) {
@@ -21,14 +23,37 @@ class AuthService {
         }
     }
 
-    public function register(RegisterUserRequest $request) {
-        $userData = $request->validated();
-        $userData['password'] = bcrypt($userData['password']);
+    public function registerAdmin(RegisterAdminRequest $request) {
+        $user = $this->register($request->validated(), 'Admin');
+        $token = $this->createToken($user);
+        
+        return response()->json(['user' => $user, 'token' => $token], 201);
+    }
 
-        $createdUser = User::create($userData);
+    public function registerLibrarian(RegisterLibrarianRequest $request) {
+        $user = $this->register($request->validated(), 'Librarian');
+        $token = $this->createToken($user);
 
-        $token = $createdUser->createToken('token')->accessToken;
+        return response()->json(['user' => $user, 'token' => $token], 201);
+    }
 
-        return response()->json(['user' => $createdUser, 'token' => $token], 201);
+    public function registerClient(RegisterClientRequest $request) {
+        $user = $this->register($request->validated(), 'Client');
+        $token = $this->createToken($user);
+
+        return response()->json(['user' => $user, 'token' => $token], 201);
+    }
+
+    private function register(array $request, $role) {
+        $request['password'] = bcrypt($request['password']);
+
+        $createdUser = User::create($request);
+        $createdUser->assignRole($role);
+        
+        return $createdUser;
+    }
+
+    private function createToken($user) {
+        return $user->createToken('token')->accessToken;
     }
 }
