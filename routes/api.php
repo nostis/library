@@ -28,5 +28,9 @@ Route::group(['prefix' => 'auth'], function () {
         Route::group(['prefix' => 'librarians'], function () {
             Route::post('', 'AuthController@registerLibrarian');   
         });
+
+        Route::group(['prefix' => 'books'], function() {
+            Route::post('rent', 'BookController@rentBook');
+        });
     });
 });
